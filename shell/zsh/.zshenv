@@ -1,2 +1,2 @@
-export DOTFILES_PATH="/Users/abosch/.dotfiles"
+export DOTFILES_PATH="$HOME/.dotfiles"
 
