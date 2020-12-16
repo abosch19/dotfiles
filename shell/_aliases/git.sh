@@ -1,3 +1,5 @@
 alias gs='git status -sb'
 alias gc='git commit'
 alias ga='git add -up'
+alias develop='git checkout develop'
+alias master='git checkout master'
