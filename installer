@@ -8,7 +8,7 @@ set -euo pipefail
 ##? Usage:
 ##?    install
 
-echo "🚀 Welcome to the abosch/dotfiles installer!"
+echo "🚀 Welcome to the abosch19/dotfiles installer!"
 echo "-------------------------------------------------"
 echo
 export DOTFILES_PATH="$HOME/.dotfiles"
