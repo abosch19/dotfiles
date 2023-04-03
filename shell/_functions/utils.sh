@@ -3,5 +3,5 @@ ip() {
 }
 
 killport() {
- kill -6 $(lsof -i tcp:$1 | awk '{print $2}')
+ kill -6 $(lsof -t -i:$1 | awk '{print $2}')
 }
