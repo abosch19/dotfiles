@@ -17,6 +17,13 @@ echo "👉  Cloning into: '$DOTFILES_PATH'"
 # To test that git is installed (if not macOS will prompt an installer)
 git --version
 
-git clone --depth 1 git@github.com:abosch19/dotfiles.git "$DOTFILES_PATH"
+# git clone --depth 1 git@github.com:abosch19/dotfiles.git "$DOTFILES_PATH"
 
-bash "$DOTFILES_PATH/scripts/install.sh"
+# Check if ZSH is installed
+if ! command -v zsh &> /dev/null
+then
+  echo "🚨 ZSH is not installed. Please install it and run this script again."
+  exit 1
+else
+    zsh "$DOTFILES_PATH/scripts/install.sh"
+fi
