@@ -16,14 +16,17 @@ export DOTFILES_PATH="$HOME/.dotfiles"
 # To test that git is installed (if not macOS will prompt an installer)
 git --version
 
-# Check if ZSH is installed before doing anything else
-if ! command -v zsh &> /dev/null
-then
-  echo "🚨 ZSH is not installed. Install it and run this script again:"
+# Pick a shell to run the install script with: prefer zsh, fall back to bash.
+if command -v zsh &> /dev/null; then
+  RUNNER="zsh"
+elif command -v bash &> /dev/null; then
+  RUNNER="bash"
+  echo "ℹ️  ZSH not found — using bash. Aliases work the same in both."
+else
+  echo "🚨 Neither zsh nor bash is installed. Install one and run this again:"
   echo
-  if [[ "$OSTYPE" == darwin* ]]; then
+  if [[ "${OSTYPE:-}" == darwin* ]]; then
     echo "  • macOS (Homebrew):   brew install zsh"
-    echo "    (ZSH also ships with macOS by default — try: chsh -s \$(which zsh))"
   elif command -v apt &> /dev/null; then
     echo "  • Debian/Ubuntu:      sudo apt update && sudo apt install -y zsh"
   elif command -v dnf &> /dev/null; then
@@ -40,12 +43,10 @@ then
     echo "  • Fedora/RHEL:        sudo dnf install zsh"
     echo "  • Arch:               sudo pacman -S zsh"
   fi
-  echo
-  echo "Then set it as your default shell: chsh -s \$(which zsh)"
   exit 1
 fi
 
 echo "👉  Cloning into: '$DOTFILES_PATH'"
 git clone --depth 1 git@github.com:abosch19/dotfiles.git "$DOTFILES_PATH"
 
-zsh "$DOTFILES_PATH/scripts/install.sh"
+"$RUNNER" "$DOTFILES_PATH/scripts/install.sh"
