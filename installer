@@ -12,18 +12,40 @@ echo "🚀 Welcome to the abosch19/dotfiles installer!"
 echo "-------------------------------------------------"
 echo
 export DOTFILES_PATH="$HOME/.dotfiles"
-echo "👉  Cloning into: '$DOTFILES_PATH'"
 
 # To test that git is installed (if not macOS will prompt an installer)
 git --version
 
-git clone --depth 1 git@github.com:abosch19/dotfiles.git "$DOTFILES_PATH"
-
-# Check if ZSH is installed
+# Check if ZSH is installed before doing anything else
 if ! command -v zsh &> /dev/null
 then
-  echo "🚨 ZSH is not installed. Please install it and run this script again."
+  echo "🚨 ZSH is not installed. Install it and run this script again:"
+  echo
+  if [[ "$OSTYPE" == darwin* ]]; then
+    echo "  • macOS (Homebrew):   brew install zsh"
+    echo "    (ZSH also ships with macOS by default — try: chsh -s \$(which zsh))"
+  elif command -v apt &> /dev/null; then
+    echo "  • Debian/Ubuntu:      sudo apt update && sudo apt install -y zsh"
+  elif command -v dnf &> /dev/null; then
+    echo "  • Fedora/RHEL:        sudo dnf install -y zsh"
+  elif command -v pacman &> /dev/null; then
+    echo "  • Arch:               sudo pacman -S zsh"
+  elif command -v zypper &> /dev/null; then
+    echo "  • openSUSE:           sudo zypper install zsh"
+  elif command -v apk &> /dev/null; then
+    echo "  • Alpine:             sudo apk add zsh"
+  else
+    echo "  • macOS (Homebrew):   brew install zsh"
+    echo "  • Debian/Ubuntu:      sudo apt install zsh"
+    echo "  • Fedora/RHEL:        sudo dnf install zsh"
+    echo "  • Arch:               sudo pacman -S zsh"
+  fi
+  echo
+  echo "Then set it as your default shell: chsh -s \$(which zsh)"
   exit 1
-else
-    zsh "$DOTFILES_PATH/scripts/install.sh"
 fi
+
+echo "👉  Cloning into: '$DOTFILES_PATH'"
+git clone --depth 1 git@github.com:abosch19/dotfiles.git "$DOTFILES_PATH"
+
+zsh "$DOTFILES_PATH/scripts/install.sh"
