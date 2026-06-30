@@ -40,9 +40,15 @@ else
 fi
 
 echo "🔀 Setting Git config"
-read -rp "✉️  What is your email? " git_email
-read -rp "👤 And your name? " git_name
+printf "✉️  What is your email? "
+read -r git_email
+printf "👤 And your name? "
+read -r git_name
 git config --global user.email "$git_email"
 git config --global user.name "$git_name"
 
-echo "🎉 Done! Restart your terminal or run: source $RC_PATH"
+# Load the new config into the current session (don't abort if something errors)
+# shellcheck disable=SC1090
+source "$RC_PATH" || echo "⚠️  Could not source $RC_PATH automatically — restart your terminal."
+
+echo "🎉 Done!"
